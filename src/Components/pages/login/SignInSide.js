@@ -12,6 +12,7 @@ import Grid from "@mui/material/Grid";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import styles from "./styles.module.scss";
 
 function Copyright(props) {
   return (
@@ -52,9 +53,11 @@ export default function SignInSide() {
         component="main"
         sx={{ height: "50vh" }}
         style={{ width: "50%" }}
+        className={styles.mainContainer}
       >
         <CssBaseline />
         <Grid
+          className={styles.imgContainer}
           item
           xs={false}
           sm={4}
@@ -71,7 +74,16 @@ export default function SignInSide() {
             backgroundPosition: "center",
           }}
         />
-        <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
+        <Grid
+          item
+          xs={12}
+          sm={8}
+          md={5}
+          component={Paper}
+          elevation={6}
+          square
+          className={styles.signInForm}
+        >
           <Box
             sx={{
               my: 8,

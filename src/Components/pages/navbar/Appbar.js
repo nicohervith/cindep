@@ -15,6 +15,8 @@ import AccountCircle from "@mui/icons-material/AccountCircle";
 import MailIcon from "@mui/icons-material/Mail";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import MoreIcon from "@mui/icons-material/MoreVert";
+import styles from "./styles.module.scss";
+import { Link } from "react-router-dom";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -119,7 +121,7 @@ export default function PrimarySearchAppBar() {
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}
     >
- {/*      <MenuItem>
+      {/*      <MenuItem>
         <IconButton size="large" aria-label="show 4 new mails" color="inherit">
           <Badge badgeContent={4} color="error">
             <MailIcon />
@@ -155,8 +157,8 @@ export default function PrimarySearchAppBar() {
   );
 
   return (
-    <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static">
+    <Box sx={{ flexGrow: 1 }} className={styles.bgAppbar}>
+      <AppBar position="static" className={styles.bgAppbar}>
         <Toolbar>
           <IconButton
             size="large"
@@ -195,6 +197,11 @@ export default function PrimarySearchAppBar() {
                 <MailIcon />
               </Badge>
             </IconButton> */}
+            <div>
+              <Link to="/login">
+                <button className={styles.button}>Logout</button>
+              </Link>
+            </div>
             <IconButton
               size="large"
               aria-label="show 17 new notifications"
