@@ -1,12 +1,13 @@
 import React from "react";
 import styles from "./styles.module.scss";
-import SignInSide from "./SignInSide";
+import SignIn from "./signin/SignIn";
+
 
 const Login = () => {
   return (
     <div className={styles.bglogin}>
       <div className={styles.signInContainer}>
-        <SignInSide />
+        <SignIn />
       </div>
     </div>
   );
