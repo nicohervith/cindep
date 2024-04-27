@@ -1,5 +1,16 @@
-.mainContainer{
+.mainContainer {
   background: white;
   padding: 20px;
   border-radius: 10px;
+}
+.errorMessage {
+  background: red;
+  height: 35px;
+  display: flex;
+  align-items: center;
+  padding-left: 10px;
+  color: white;
+  border-radius: 2.5px;
+  font-size: 13px;
+  margin-top: 0;
 }

@@ -17,6 +17,7 @@ import NotificationsIcon from "@mui/icons-material/Notifications";
 import MoreIcon from "@mui/icons-material/MoreVert";
 import styles from "./styles.module.scss";
 import { Link } from "react-router-dom";
+import { useAuth } from "../../../context/AuthContext";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -82,6 +83,9 @@ export default function PrimarySearchAppBar() {
     setMobileMoreAnchorEl(event.currentTarget);
   };
 
+  const { isAuthenticated, logout, user } = useAuth();
+  /* console.log(isAuthenticated, user); */
+
   const menuId = "primary-search-account-menu";
   const renderMenu = (
     <Menu
@@ -101,6 +105,11 @@ export default function PrimarySearchAppBar() {
     >
       <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
       <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+      <MenuItem onClick={() => logout()} className={styles.menuItemLogout}>
+        <Link to="/login" onClick={() => logout()}>
+          Logout
+        </Link>
+      </MenuItem>
     </Menu>
   );
 
@@ -197,12 +206,8 @@ export default function PrimarySearchAppBar() {
                 <MailIcon />
               </Badge>
             </IconButton> */}
-            <div>
-              <Link to="/login">
-                <button className={styles.button}>Logout</button>
-              </Link>
-            </div>
-            <IconButton
+
+            {/* <IconButton
               size="large"
               aria-label="show 17 new notifications"
               color="inherit"
@@ -210,18 +215,24 @@ export default function PrimarySearchAppBar() {
               <Badge badgeContent={17} color="error">
                 <NotificationsIcon />
               </Badge>
-            </IconButton>
-            <IconButton
-              size="large"
-              edge="end"
-              aria-label="account of current user"
-              aria-controls={menuId}
-              aria-haspopup="true"
-              onClick={handleProfileMenuOpen}
-              color="inherit"
-            >
-              <AccountCircle />
-            </IconButton>
+            </IconButton> */}
+            <div className={styles.navIcons}>
+              <IconButton
+                size="large"
+                edge="end"
+                aria-label="account of current user"
+                aria-controls={menuId}
+                aria-haspopup="true"
+                onClick={handleProfileMenuOpen}
+                color="inherit"
+              >
+                <AccountCircle />
+              </IconButton>
+
+              {/* <Link to="/login" onClick={() => logout()}>
+                <button className={styles.button}>Logout</button>
+              </Link> */}
+            </div>
           </Box>
           <Box sx={{ display: { xs: "flex", md: "none" } }}>
             <IconButton

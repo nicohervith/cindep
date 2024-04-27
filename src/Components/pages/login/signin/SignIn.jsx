@@ -13,7 +13,13 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import styles from "./styles.module.scss";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useForm } from "react-hook-form";
+import { loginSchema } from "../../../schemas/auth";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../../../context/AuthContext";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Message } from "../../../ui/Message";
 
 function Copyright(props) {
   return (
@@ -33,41 +39,43 @@ function Copyright(props) {
   );
 }
 
-// TODO remove, this demo shouldn't need to reset the theme.
-
 const defaultTheme = createTheme();
 
 export default function SignIn() {
-  const [error, setError] = useState(null);
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: zodResolver(loginSchema),
+  });
+  const { signin, errors: loginErrors, isAuthenticated } = useAuth();
+  const [error, setError] = useState("");
+  const navigate = useNavigate();
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    const formData = new FormData(event.currentTarget);
-    const userData = {
-      /* username: formData.get("username"), */
-      email: formData.get("email"),
-      password: formData.get("password"),
-    };
+  /*  const onSubmit = (data) => signin(data); */
 
+  const onSubmit = async (data) => {
     try {
-      const response = await fetch("http://localhost:4000/api/auth/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(userData),
-      });
-
-      if (response.ok) {
-        console.log("Registro exitoso");
-      } else {
-        setError("Error en el registro");
-      }
+      await signin(data);
     } catch (error) {
-      console.error("Error de red:", error);
-      setError("Error de red");
+      if (
+        error.response &&
+        error.response.data &&
+        error.response.data.message
+      ) {
+        setError(error.response.data.message);
+      } else {
+        setError("An error occurred. Please try again later.");
+      }
     }
   };
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate("/");
+    }
+  }, [isAuthenticated]);
 
   return (
     <ThemeProvider theme={defaultTheme}>
@@ -90,7 +98,7 @@ export default function SignIn() {
           </Typography>
           <Box
             component="form"
-            onSubmit={handleSubmit}
+            onSubmit={handleSubmit(onSubmit)}
             noValidate
             sx={{ mt: 1 }}
           >
@@ -103,21 +111,35 @@ export default function SignIn() {
               name="email"
               autoComplete="email"
               autoFocus
+              {...register("email", { required: true })}
+              placeholder="Email"
             />
+            {errors.email && (
+              <p className={styles.errorMessage}>Email is required*</p>
+            )}
             <TextField
               margin="normal"
               required
               fullWidth
               name="password"
               label="Password"
-              type="password"
               id="password"
               autoComplete="current-password"
+              type="password"
+              {...register("password", { required: true, minLength: 6 })}
+              placeholder="Password"
             />
+            {/* <p className={styles.errorMessage}>{errors.password?.message}</p> */}
             <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}
               label="Remember me"
             />
+            {error && <p className="text-red-500">{error}</p>}
+            {loginErrors.map((error, i) => (
+              <p key={i} className="text-red-500">
+                {error}*
+              </p>
+            ))}
             <Button
               type="submit"
               fullWidth

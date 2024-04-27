@@ -1,7 +1,19 @@
 .bgAppbar {
-  background-color: #181631 !important;
+  background-color: #181227 !important;
   border-bottom: 0.3px solid rgba(71, 47, 59, 0.3);
 }
 .button {
   cursor: pointer;
+}
+.navIcons {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.menuItemLogout {
+  border-top: 1px solid gray;
+}
+.menuItemLogout a {
+  text-decoration: none;
+  color: rgba(0, 0, 0, 0.87);
 }
