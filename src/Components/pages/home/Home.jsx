@@ -1,16 +1,19 @@
-import React from "react";
+import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
 import Navbar from "../navbar/Navbar";
 import styles from "./styles.module.scss";
 import Card from "@mui/material/Card";
-
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 import CardMedia from "@mui/material/CardMedia";
-
 import Typography from "@mui/material/Typography";
-
+import { backMovie, currentMovies, nextMovie } from "./hooks";
 import mazerunner from "../../../assets/images/mazerunner.png";
+import interestellar from "../../../assets/images/interestellar.jpg";
 import AsideMenu from "./AsideMenu";
+import { Link } from "react-router-dom";
 
-const Home = ({ classes }) => {
+const Home = ({ classes }, props) => {
   const movies = [
     {
       title: "Ready player one",
@@ -22,9 +25,8 @@ const Home = ({ classes }) => {
       imageUrl: mazerunner,
     },
     {
-      title: "Harry Potter",
-      imageUrl:
-        "https://t2.uc.ltmcdn.com/es/posts/7/3/7/como_conseguir_caratulas_para_peliculas_1737_orig.jpg",
+      title: "Interestellar",
+      imageUrl: interestellar,
     },
     {
       title: "Ready player one",
@@ -42,6 +44,14 @@ const Home = ({ classes }) => {
     },
   ];
 
+  const settings = {
+    dots: false,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 3,
+    slidesToScroll: 1,
+  };
+
   return (
     <div>
       <div className={styles.navBarContainer}>
@@ -58,26 +68,27 @@ const Home = ({ classes }) => {
             </div>
             <div className={styles.cardContainer}>
               {movies.map((movie, index) => (
-                <Card key={index} sx={{ width: 245 }} className={styles.cards}>
-                  <CardMedia
-                    sx={{ height: 300 }}
-                    image={movie.imageUrl}
-                    title={movie.title}
-                  />
-                  <div
-                    className={styles.MovietitleContainer}
-                    styles={{ background: "transparent" }}
-                  >
-                    <Typography
-                      gutterBottom
-                      variant="h5"
-                      component="div"
-                      className={styles.movieTitle}
-                    >
-                      {movie.title}
-                    </Typography>
-                  </div>
-                </Card>
+                <div key={index}>
+                  <Link to={`/movies/${movie.title}`} className={styles.link}>
+                    <Card style={{ width: 200 }} className={styles.cards}>
+                      <CardMedia
+                        style={{ height: 300 }}
+                        image={movie.imageUrl}
+                        title={movie.title}
+                      />
+                      <div className={styles.MovietitleContainer}>
+                        <Typography
+                          gutterBottom
+                          variant="h5"
+                          component="div"
+                          className={styles.movieTitle}
+                        >
+                          {movie.title}
+                        </Typography>
+                      </div>
+                    </Card>
+                  </Link>
+                </div>
               ))}
             </div>
           </div>
@@ -87,23 +98,25 @@ const Home = ({ classes }) => {
             </div>
             <div className={styles.cardContainer}>
               {movies.map((movie, index) => (
-                <Card key={index} sx={{ width: 245 }} className={styles.cards}>
-                  <CardMedia
-                    sx={{ height: 300 }}
-                    image={movie.imageUrl}
-                    title={movie.title}
-                  />
-                  <div className={styles.MovietitleContainer}>
-                    <Typography
-                      gutterBottom
-                      variant="h5"
-                      component="div"
-                      className={styles.movieTitle}
-                    >
-                      {movie.title}
-                    </Typography>
-                  </div>
-                </Card>
+                <div key={index}>
+                  <Card style={{ width: 200 }} className={styles.cards}>
+                    <CardMedia
+                      style={{ height: 300 }}
+                      image={movie.imageUrl}
+                      title={movie.title}
+                    />
+                    <div className={styles.MovietitleContainer}>
+                      <Typography
+                        gutterBottom
+                        variant="h5"
+                        component="div"
+                        className={styles.movieTitle}
+                      >
+                        {movie.title}
+                      </Typography>
+                    </div>
+                  </Card>
+                </div>
               ))}
             </div>
           </div>

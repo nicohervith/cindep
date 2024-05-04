@@ -4,6 +4,7 @@ import Home from "../pages/home/Home";
 import Login from "../pages/login/Login";
 import SignUp from "../pages/login/signup/SignUp";
 import { AuthProvider } from "../../context/AuthContext";
+import MediaPage from "../pages/media/MediaPage";
 
 const PageRoutes = () => {
   return (
@@ -13,6 +14,7 @@ const PageRoutes = () => {
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<SignUp />} />
+          <Route path="/movies/:movieTitle" element={<MediaPage />} />
         </Routes>
       </AuthProvider>
     </div>
