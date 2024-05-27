@@ -1,4 +1,5 @@
 import * as React from "react";
+import { useEffect, useState } from "react";
 import { styled, alpha } from "@mui/material/styles";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
@@ -60,6 +61,23 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 export default function PrimarySearchAppBar() {
+  const { isAuthenticated, logout, user } = useAuth();
+  /*  const isAdmin = user && user.role === "admin"; */
+
+  const [userRole, setUserRole] = useState(null); // Estado para almacenar el rol del usuario
+
+  useEffect(() => {
+    const user = JSON.parse(localStorage.getItem("user"));
+    if (user && user.role) {
+      setUserRole(user.role);
+      console.log(user.role);
+    }
+  }, []);
+  
+  const isAdmin = userRole && userRole.includes && userRole.includes("admin");
+  console.log("isAdmin", isAdmin);
+  // Verificar si el usuario tiene el rol de administrador
+
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
 
@@ -83,7 +101,6 @@ export default function PrimarySearchAppBar() {
     setMobileMoreAnchorEl(event.currentTarget);
   };
 
-  const { isAuthenticated, logout, user } = useAuth();
   /* console.log(isAuthenticated, user); */
 
   const menuId = "primary-search-account-menu";
@@ -105,6 +122,11 @@ export default function PrimarySearchAppBar() {
     >
       <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
       <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+      {user && isAdmin && (
+        <MenuItem onClick={handleMenuClose}>
+          <Link to="/upload" className={styles.uploadFile}>Subir archivo</Link>
+        </MenuItem>
+      )}
       <MenuItem onClick={() => logout()} className={styles.menuItemLogout}>
         <Link to="/login" onClick={() => logout()}>
           Logout
@@ -130,14 +152,6 @@ export default function PrimarySearchAppBar() {
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}
     >
-      {/*      <MenuItem>
-        <IconButton size="large" aria-label="show 4 new mails" color="inherit">
-          <Badge badgeContent={4} color="error">
-            <MailIcon />
-          </Badge>
-        </IconButton>
-        <p>Messages</p>
-      </MenuItem> */}
       <MenuItem>
         <IconButton
           size="large"
@@ -197,25 +211,6 @@ export default function PrimarySearchAppBar() {
           </Search>
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: { xs: "none", md: "flex" } }}>
-            {/* <IconButton
-              size="large"
-              aria-label="show 4 new mails"
-              color="inherit"
-            >
-              <Badge badgeContent={4} color="error">
-                <MailIcon />
-              </Badge>
-            </IconButton> */}
-
-            {/* <IconButton
-              size="large"
-              aria-label="show 17 new notifications"
-              color="inherit"
-            >
-              <Badge badgeContent={17} color="error">
-                <NotificationsIcon />
-              </Badge>
-            </IconButton> */}
             <div className={styles.navIcons}>
               <IconButton
                 size="large"

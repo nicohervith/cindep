@@ -20,6 +20,7 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../../../context/AuthContext";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Message } from "../../../ui/Message";
+import { loginRequest } from "../../../../api/auth";
 
 function Copyright(props) {
   return (
@@ -49,15 +50,24 @@ export default function SignIn() {
   } = useForm({
     resolver: zodResolver(loginSchema),
   });
-  const { signin, errors: loginErrors, isAuthenticated } = useAuth();
+  const {
+    signin,
+    errors: loginErrors,
+    isAuthenticated,
+    setUser,
+    setIsAuthenticated,
+  } = useAuth();
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
-  /*  const onSubmit = (data) => signin(data); */
-
   const onSubmit = async (data) => {
     try {
-      await signin(data);
+      const res = await signin(data);
+      setUser(res.data); // Establece el usuario en el contexto de autenticación
+      setIsAuthenticated(true); // Marca como autenticado
+
+      // Guarda la información del usuario en el localStorage
+      localStorage.setItem("user", JSON.stringify(res.data));
     } catch (error) {
       if (
         error.response &&
@@ -129,7 +139,6 @@ export default function SignIn() {
               {...register("password", { required: true, minLength: 6 })}
               placeholder="Password"
             />
-            {/* <p className={styles.errorMessage}>{errors.password?.message}</p> */}
             <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}
               label="Remember me"
@@ -162,7 +171,6 @@ export default function SignIn() {
             </Grid>
           </Box>
         </Box>
-        <Copyright sx={{ mt: 8, mb: 4 }} />
       </Container>
     </ThemeProvider>
   );

@@ -57,7 +57,7 @@ export default function SignUp() {
   }, [isAuthenticated]);
 
   const onSubmit = handleSubmit(async (values) => {
-    const data = { ...values, roles: selectedRoles };
+    const data = { ...values, role: selectedRoles };
     signup(data);
   });
 
