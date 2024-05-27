@@ -11,6 +11,12 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useState, useEffect } from "react";
+import {
+
+  Checkbox,
+  FormControlLabel,
+
+} from "@mui/material";
 import { useForm } from "react-hook-form";
 import { useAuth } from "../../../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
@@ -44,14 +50,25 @@ export default function SignUp() {
   } = useForm();
 
   const navigate = useNavigate();
+  const [selectedRoles, setSelectedRoles] = useState([]);
 
   useEffect(() => {
     if (isAuthenticated) navigate("/");
   }, [isAuthenticated]);
 
   const onSubmit = handleSubmit(async (values) => {
-    signup(values);
+    const data = { ...values, role: selectedRoles };
+    signup(data);
   });
+
+  const handleRoleChange = (e) => {
+    const role = e.target.value;
+    if (e.target.checked) {
+      setSelectedRoles((prevRoles) => [...prevRoles, role]);
+    } else {
+      setSelectedRoles((prevRoles) => prevRoles.filter((r) => r !== role));
+    }
+  };
 
   return (
     <ThemeProvider theme={defaultTheme}>
@@ -113,6 +130,28 @@ export default function SignUp() {
                 {errors.password && (
                   <p className="text-red-500">Password is required</p>
                 )}
+              </Grid>
+              <Grid item xs={12}>
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      checked={selectedRoles.includes("user")}
+                      onChange={handleRoleChange}
+                      value="user"
+                    />
+                  }
+                  label="User"
+                />
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      checked={selectedRoles.includes("creator")}
+                      onChange={handleRoleChange}
+                      value="creator"
+                    />
+                  }
+                  label="Creator"
+                />
               </Grid>
             </Grid>
             <Button

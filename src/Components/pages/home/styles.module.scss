@@ -6,7 +6,6 @@
     rgba(41, 31, 68, 1) 50%,
     rgba(34, 26, 56, 1) 100%
   );
-  height: 200vh;
   display: flex;
 }
 .navBarContainer {
@@ -18,6 +17,7 @@
 .catalogContainer {
   padding: 20px;
   padding-left: 40px;
+  width: 90%;
 }
 .catalogTitle h2 {
   color: rgb(224, 224, 224);
@@ -46,16 +46,9 @@
 }
 
 .cardContainer .MovietitleContainer {
-  /* background-color: transparent !important; */
   height: 40px;
   display: flex;
   align-items: center;
-  /*   background: linear-gradient(
-    90deg,
-    rgb(24, 18, 39) 8%,
-    rgb(41, 31, 68) 50%,
-    rgb(34, 26, 56) 100%
-  ); */
   box-shadow: none !important;
 }
 .movieTitle {
@@ -73,4 +66,19 @@
 }
 .asideIcons {
   color: white !important;
+}
+.link {
+  text-decoration: none;
+}
+.sliderContainer {
+  min-height: 0;
+  min-width: 0;
+  padding: 20px;
+}
+.slick-dots {
+  display: none !important;
+}
+.slick-slider {
+  padding-left: 5px !important;
+  padding-right: 5px !important;
 }
