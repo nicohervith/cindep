@@ -6,7 +6,6 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
-import { backMovie, currentMovies, nextMovie } from "./hooks";
 import mazerunner from "../../../assets/images/mazerunner.png";
 import interestellar from "../../../assets/images/interestellar.jpg";
 import AsideMenu from "./AsideMenu";
@@ -80,7 +79,7 @@ const Home = ({ classes }, props) => {
       try {
         const response = await axios.get("http://localhost:4000/api/video");
         setMovies(response.data);
-        console.log(response.data);
+        console.log("get videos", response.data);
       } catch (error) {
         console.error("Error fetching movies:", error);
       }
