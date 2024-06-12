@@ -16,7 +16,7 @@ const PageRoutes = () => {
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<SignUp />} />
           <Route element={<ProtectedRoute />}>
-            <Route path="/" element={<Home />} />
+            <Route path="/" exact element={<Home />} />
             <Route path="/movies/:movieTitle" element={<MediaPage />} />
             <Route path="/upload" element={<UploadFile />} />
           </Route>

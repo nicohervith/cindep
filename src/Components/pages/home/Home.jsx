@@ -13,35 +13,43 @@ import AsideMenu from "./AsideMenu";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../../context/AuthContext";
 import Slider from "react-slick";
+import axios from "axios";
 
 const Home = ({ classes }, props) => {
-  const movies = [
+  const [movies, setMovies] = useState([]);
+  const movies2 = [
     {
       title: "Ready player one",
       imageUrl:
         "https://www.tematika.com/media/catalog/Ilhsa/Imagenes/653521.jpg",
+      videoUrl: "https://www.youtube.com/watch?v=cSp1dM2Vj48",
     },
     {
       title: "Maze runner",
       imageUrl: mazerunner,
+      videoUrl: "https://www.youtube.com/watch?v=cSp1dM2Vj48",
     },
     {
       title: "Interestellar",
       imageUrl: interestellar,
+      videoUrl: "https://www.youtube.com/watch?v=cSp1dM2Vj48",
     },
     {
       title: "Ready player one",
       imageUrl:
         "https://www.tematika.com/media/catalog/Ilhsa/Imagenes/653521.jpg",
+      videoUrl: "https://www.youtube.com/watch?v=cSp1dM2Vj48",
     },
     {
       title: "Maze runner",
       imageUrl: mazerunner,
+      videoUrl: "https://www.youtube.com/watch?v=cSp1dM2Vj48",
     },
     {
       title: "Harry Potter",
       imageUrl:
         "https://t2.uc.ltmcdn.com/es/posts/7/3/7/como_conseguir_caratulas_para_peliculas_1737_orig.jpg",
+      videoUrl: "https://www.youtube.com/watch?v=cSp1dM2Vj48",
     },
   ];
 
@@ -67,6 +75,20 @@ const Home = ({ classes }, props) => {
     }
   }, [isAuthenticated]);
 
+  useEffect(() => {
+    const fetchMovies = async () => {
+      try {
+        const response = await axios.get("http://localhost:4000/api/video");
+        setMovies(response.data);
+        console.log(response.data);
+      } catch (error) {
+        console.error("Error fetching movies:", error);
+      }
+    };
+
+    fetchMovies();
+  }, []);
+
   return (
     <div>
       <div className={styles.navBarContainer}>
@@ -82,9 +104,15 @@ const Home = ({ classes }, props) => {
           </div>
           <div className={styles.sliderContainer}>
             <Slider {...settings}>
-              {movies.map((movie, index) => (
+              {movies2.map((movie, index) => (
                 <div key={index}>
-                  <Link to={`/movies/${movie.title}`} className={styles.link}>
+                  <Link
+                    to={{
+                      pathname: `/movies/${movie.title}`,
+                      state: { videoUrl: movie.videoUrl },
+                    }}
+                    className={styles.link}
+                  >
                     <Card style={{ width: 200 }} className={styles.cards}>
                       <CardMedia
                         style={{ height: 300 }}
@@ -113,7 +141,7 @@ const Home = ({ classes }, props) => {
             </div>
             <div className={styles.sliderContainer}>
               <Slider {...settings}>
-                {movies.map((movie, index) => (
+                {movies2.map((movie, index) => (
                   <div key={index}>
                     <Link to={`/movies/${movie.title}`} className={styles.link}>
                       <Card style={{ width: 200 }} className={styles.cards}>

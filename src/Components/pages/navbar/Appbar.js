@@ -17,7 +17,7 @@ import MailIcon from "@mui/icons-material/Mail";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import MoreIcon from "@mui/icons-material/MoreVert";
 import styles from "./styles.module.scss";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useAuth } from "../../../context/AuthContext";
 
 const Search = styled("div")(({ theme }) => ({
@@ -63,7 +63,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 export default function PrimarySearchAppBar() {
   const { isAuthenticated, logout, user } = useAuth();
   /*  const isAdmin = user && user.role === "admin"; */
-
+  const location = useLocation();
   const [userRole, setUserRole] = useState(null); // Estado para almacenar el rol del usuario
 
   useEffect(() => {
@@ -73,7 +73,7 @@ export default function PrimarySearchAppBar() {
       console.log(user.role);
     }
   }, []);
-  
+
   const isAdmin = userRole && userRole.includes && userRole.includes("admin");
   console.log("isAdmin", isAdmin);
   // Verificar si el usuario tiene el rol de administrador
@@ -120,11 +120,12 @@ export default function PrimarySearchAppBar() {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-      <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+      <MenuItem onClick={handleMenuClose}>Perfil</MenuItem>
       {user && isAdmin && (
         <MenuItem onClick={handleMenuClose}>
-          <Link to="/upload" className={styles.uploadFile}>Subir archivo</Link>
+          <Link to="/upload" className={styles.uploadFile}>
+            Subir archivo
+          </Link>
         </MenuItem>
       )}
       <MenuItem onClick={() => logout()} className={styles.menuItemLogout}>
@@ -198,17 +199,21 @@ export default function PrimarySearchAppBar() {
             component="div"
             sx={{ display: { xs: "none", sm: "block" } }}
           >
-            Logo
+            <Link to="/" className={styles.logo}>
+              Logo
+            </Link>
           </Typography>
-          <Search>
-            <SearchIconWrapper>
-              <SearchIcon />
-            </SearchIconWrapper>
-            <StyledInputBase
-              placeholder="Search…"
-              inputProps={{ "aria-label": "search" }}
-            />
-          </Search>
+          {location.pathname !== "/upload" && (
+            <Search>
+              <SearchIconWrapper>
+                <SearchIcon />
+              </SearchIconWrapper>
+              <StyledInputBase
+                placeholder="Search…"
+                inputProps={{ "aria-label": "search" }}
+              />
+            </Search>
+          )}
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: { xs: "none", md: "flex" } }}>
             <div className={styles.navIcons}>
@@ -223,10 +228,6 @@ export default function PrimarySearchAppBar() {
               >
                 <AccountCircle />
               </IconButton>
-
-              {/* <Link to="/login" onClick={() => logout()}>
-                <button className={styles.button}>Logout</button>
-              </Link> */}
             </div>
           </Box>
           <Box sx={{ display: { xs: "flex", md: "none" } }}>

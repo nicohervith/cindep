@@ -1,0 +1,37 @@
+.uploadContainer {
+  background: linear-gradient(
+    90deg,
+    rgb(24, 18, 39) 8%,
+    rgb(41, 31, 68) 50%,
+    rgb(34, 26, 56) 100%
+  );
+  height: 100vh;
+}
+.uploadBox {
+  background-color: white;
+  height: auto;
+  max-width: 1000px;
+}
+.uploadBox h2 {
+  color: black;
+}
+.textarea {
+  resize: vertical;
+  border-radius: 4px;
+  color: rgba(0, 0, 0, 0.87);
+  font-size: 1rem;
+  border-color: rgba(0, 0, 0, 0.23);
+  margin-top: 16px;
+  width: 96.5%;
+}
+
+.navBarContainer {
+  position: sticky;
+  top: 0;
+  z-index: 11111;
+}
+.mainUploadContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

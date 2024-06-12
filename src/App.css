@@ -4,3 +4,6 @@
 div.css-3dzjca-MuiPaper-root-MuiPopover-paper-MuiMenu-paper {
   top: 65px !important;
 }
+.ytp-youtube-button .ytp-button .yt-uix-sessionlink {
+  display: none !important;
+}
